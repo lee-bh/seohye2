@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>타이포잔치 아카이브 Typography Archive</title>
+    <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+    <div class="header">
+        <h1>타이포잔치 아카이브</h1>
+        <p>Typography Archive - 8회의 전시회 기록</p>
+    </div>
+
+    <div class="container">
+        <div class="filters">
+            <div class="filter-group">
+                <select id="yearFilter" class="filter-select">
+                    <option value="">all time</option>
+                    <option value="2001">2001</option>
+                    <option value="2011">2011</option>
+                    <option value="2013">2013</option>
+                    <option value="2015">2015</option>
+                    <option value="2017">2017</option>
+                    <option value="2019">2019</option>
+                    <option value="2021">2021</option>
+                    <option value="2023">2023</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <select id="countryFilter" class="filter-select">
+                    <option value="">all country</option>
+                    <option value="한국">한국</option>
+                    <option value="일본">일본</option>
+                    <option value="중국">중국</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <input type="text" id="searchInput" class="search-input" placeholder="작가명 또는 작품명으로 검색...">
+            </div>
+            
+            <div class="thumbnail-controls">
+                <input type="range" id="sizeSlider" class="size-slider" min="200" max="500" value="300">
+                <div id="sizeDisplay" class="size-display">300px</div>
+            </div>
+        </div>
+
+        <div id="stats" class="stats" style="display: none;">
+            <!-- Stats will be populated by JavaScript -->
+        </div>
+
+        <div id="loading" class="loading">
+            로딩 중... Loading...
+        </div>
+        
+        <div id="gallery" class="gallery" style="display: none;">
+            <!-- Gallery items will be populated by JavaScript -->
+        </div>
+        
+        <div id="noResults" class="no-results" style="display: none;">
+            검색 결과가 없습니다.
+        </div>
+        
+        <div id="error" class="error" style="display: none;">
+            데이터를 불러올 수 없습니다. JSON 파일을 확인해주세요.
+        </div>
+    </div>
+
+    <script>
+        let allData = [];
+        let filteredData = [];
+        let thumbnailSize = 300; // Default thumbnail size in pixels
+
+        async function loadAllData() {
+            const loadingEl = document.getElementById('loading');
+            const galleryEl = document.getElementById('gallery');
+            const errorEl = document.getElementById('error');
+            const statsEl = document.getElementById('stats');
+
+            try {
+                // Load all eight JSON files
+                const [response2001, response2011, response2013, response2015, response2017, response2019, response2021, response2023] = await Promise.all([
+                    fetch('js/2001.json'),
+                    fetch('js/2011.json'),
+                    fetch('js/2013.json'),
+                    fetch('js/2015.json'),
+                    fetch('js/2017.json'),
+                    fetch('js/2019.json'),
+                    fetch('js/2021.json'),
+                    fetch('js/2023.json')
+                ]);
+
+                if (!response2001.ok || !response2011.ok || !response2013.ok || !response2015.ok || !response2017.ok || !response2019.ok || !response2021.ok || !response2023.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const [data2001, data2011, data2013, data2015, data2017, data2019, data2021, data2023] = await Promise.all([
+                    response2001.json(),
+                    response2011.json(),
+                    response2013.json(),
+                    response2015.json(),
+                    response2017.json(),
+                    response2019.json(),
+                    response2021.json(),
+                    response2023.json()
+                ]);
+
+                // Combine all data
+                allData = [...data2001, ...data2011, ...data2013, ...data2015, ...data2017, ...data2019, ...data2021, ...data2023];
+                filteredData = [...allData];
+
+                loadingEl.style.display = 'none';
+                galleryEl.style.display = 'grid';
+                //statsEl.style.display = 'block';
+                
+
+                // Set initial gallery size
+                updateGallerySize();
+                renderGallery();
+                updateStats();
+
+            } catch (error) {
+                console.error('Error loading gallery:', error);
+                loadingEl.style.display = 'none';
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function renderGallery() {
+            const galleryEl = document.getElementById('gallery');
+            const noResultsEl = document.getElementById('noResults');
+            
+            // Check if elements exist before proceeding
+            if (!galleryEl || !noResultsEl) {
+                console.error('Gallery or noResults element not found');
+                return;
+            }
+            
+            // Clear existing items
+            galleryEl.innerHTML = '';
+
+            if (filteredData.length === 0) {
+                noResultsEl.style.display = 'block';
+                return;
+            }
+
+            noResultsEl.style.display = 'none';
+
+            // Create gallery items
+            filteredData.forEach(item => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'item';
+                
+                // Determine image path based on year
+                let imagePath;
+                if (item.yr === 2001) {
+                    imagePath = `img/thumb/2001-thumb/${item.file}`;
+                } else if (item.yr === 2011) {
+                    imagePath = `img/thumb/2011-thumb/${item.file}`;
+                } else if (item.yr === 2013) {
+                    imagePath = `img/thumb/2013-thumb/${item.file}`;
+                } else if (item.yr === 2015) {
+                    imagePath = `img/thumb/2015-thumb/${item.file}`;
+                } else if (item.yr === 2017) {
+                    imagePath = `img/thumb/2017-thumb/${item.file}`;
+                } else if (item.yr === 2019) {
+                    imagePath = `img/thumb/2019-thumb/${item.file}`;
+                } else if (item.yr === 2021) {
+                    imagePath = `img/thumb/2021-thumb/${item.file}`;
+                } else if (item.yr === 2023) {
+                    imagePath = `img/thumb/2023-thumb/${item.file}`;
+                }
+                
+                itemEl.innerHTML = `
+                    <div class="item-image-container">
+                        <img src="${imagePath}" alt="${item.title}" class="item-image" 
+                             onerror="this.src='img/noimage.jpg'">
+                    </div>
+                    <div class="item-content">
+                        <div class="item-designer">${item.designer}</div>
+                        <div class="item-title">${item.title}</div>
+                        <span class="item-country">${item.yr}, ${item.country}</span>
+                    </div>
+                `;
+                
+                galleryEl.appendChild(itemEl);
+            });
+        }
+
+        function updateStats() {
+            const statsEl = document.getElementById('stats');
+            
+            // Check if element exists before proceeding
+            if (!statsEl) {
+                console.error('Stats element not found');
+                return;
+            }
+            
+            const totalItems = allData.length;
+            const displayedItems = filteredData.length;
+            const yearCounts = {};
+            const countryCounts = {};
+
+            // Count by year and country
+            filteredData.forEach(item => {
+                yearCounts[item.yr] = (yearCounts[item.yr] || 0) + 1;
+                countryCounts[item.country] = (countryCounts[item.country] || 0) + 1;
+            });
+
+            const yearText = Object.entries(yearCounts)
+                .sort((a, b) => a[0] - b[0])
+                .map(([year, count]) => `${year}년 ${count}개`)
+                .join(', ');
+
+            const countryText = Object.entries(countryCounts)
+                .map(([country, count]) => `${country} ${count}개`)
+                .join(', ');
+
+            statsEl.innerHTML = `
+                <strong>총 ${totalItems}개 작품 중 ${displayedItems}개 표시</strong><br>
+                년도별: ${yearText} | 나라별: ${countryText}
+            `;
+        }
+
+        function filterData() {
+            const yearFilter = document.getElementById('yearFilter').value;
+            const countryFilter = document.getElementById('countryFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            filteredData = allData.filter(item => {
+                const matchesYear = !yearFilter || item.yr.toString() === yearFilter;
+                const matchesCountry = !countryFilter || item.country === countryFilter;
+                const matchesSearch = !searchTerm || 
+                    item.designer.toLowerCase().includes(searchTerm) ||
+                    item.title.toLowerCase().includes(searchTerm);
+
+                return matchesYear && matchesCountry && matchesSearch;
+            });
+
+            renderGallery();
+            updateStats();
+        }
+
+        function clearFilters() {
+            const yearFilter = document.getElementById('yearFilter');
+            const countryFilter = document.getElementById('countryFilter');
+            const searchInput = document.getElementById('searchInput');
+            
+            if (yearFilter) yearFilter.value = '';
+            if (countryFilter) countryFilter.value = '';
+            if (searchInput) searchInput.value = '';
+            
+            filteredData = [...allData];
+            renderGallery();
+            updateStats();
+        }
+
+        function updateGallerySize() {
+            const galleryEl = document.getElementById('gallery');
+            if (galleryEl) {
+                galleryEl.style.setProperty('--item-size', thumbnailSize + 'px');
+                
+                // 썸네일 크기가 200px일 때 4컬럼 클래스 추가/제거
+                if (thumbnailSize === 200) {
+                    galleryEl.classList.add('small-thumbnails');
+                } else {
+                    galleryEl.classList.remove('small-thumbnails');
+                }
+            }
+        }
+
+        function updateThumbnailSize() {
+            const sizeSlider = document.getElementById('sizeSlider');
+            const sizeDisplay = document.getElementById('sizeDisplay');
+            
+            if (sizeSlider && sizeDisplay) {
+                thumbnailSize = parseInt(sizeSlider.value);
+                sizeDisplay.textContent = thumbnailSize + 'px';
+                updateGallerySize();
+            }
+        }
+
+        // Event listeners - wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load the gallery when the page loads
+            loadAllData();
+            
+            // Add event listeners after DOM is ready
+            const yearFilter = document.getElementById('yearFilter');
+            const countryFilter = document.getElementById('countryFilter');
+            const searchInput = document.getElementById('searchInput');
+            const clearFilters = document.getElementById('clearFilters');
+            const sizeSlider = document.getElementById('sizeSlider');
+            
+            if (yearFilter) yearFilter.addEventListener('change', filterData);
+            if (countryFilter) countryFilter.addEventListener('change', filterData);
+            if (searchInput) searchInput.addEventListener('input', filterData);
+            if (clearFilters) clearFilters.addEventListener('click', clearFilters);
+            if (sizeSlider) sizeSlider.addEventListener('input', updateThumbnailSize);
+        });
+    </script>
+    </body>
+</html>

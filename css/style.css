@@ -1,0 +1,223 @@
+* {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color:black;
+    line-height: 1.5;
+}
+
+.header {
+    color: white;
+    padding: 3rem 2rem;
+    text-align: left;
+}
+
+.header h1 {}
+.header p {}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.filters {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.thumbnail-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.size-slider {
+    width: 150px;
+    height: 6px;
+    background: #4e4e4e;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 32px;
+    background: white;
+    cursor: pointer;
+    border: none;
+}
+
+.size-slider::-moz-range-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 32px;
+    background: white;
+    cursor: pointer;
+    border: none;
+}
+
+.size-display {
+    display: none;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-select, .search-input {
+    padding: 0.8rem 1rem;
+    border: 2px solid #5f5f5f;
+    transition: border-color 0.3s ease;
+    min-width: 150px;
+    color:white;
+    background: none;
+}
+
+.filter-select:focus, .search-input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.search-input {
+    min-width: 300px;
+}
+
+.stats {
+    display: none;
+    margin-bottom: 2rem;
+    color:white;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem 8rem;
+    margin-top: 2rem;
+}
+
+/* 썸네일 크기가 200px일 때 4컬럼 배치 */
+.gallery.small-thumbnails {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem 2rem;
+}
+
+.gallery.small-thumbnails .item {
+    margin: 0;
+}
+
+.item {
+    position: relative;
+    width: var(--item-size, 300px);
+    height: var(--item-size, 300px);
+    margin: calc(var(--item-size, 300px) * 0.5) auto 0 auto;
+}
+
+.item-image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    position: relative;
+}
+
+.item-image {
+    max-width: 70%;
+    max-height: 70%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.item-content {
+    position: absolute;
+    top: calc(var(--item-size, 300px) + 20px);
+    left: 0;
+    color: white;
+    padding:0;
+}
+
+.item-designer {}
+
+.item-title {}
+
+.item-country {}
+
+.loading {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+}
+
+.error {
+    text-align: center;
+    padding: 3rem;
+    color: #e74c3c;
+    background: #fdf2f2;
+    margin: 2rem;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .header h1 {}
+    
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-select, .search-input {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .clear-filters {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+    
+    .thumbnail-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    .size-slider {
+        min-width: auto;
+    }
+    
+    .gallery {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+}
