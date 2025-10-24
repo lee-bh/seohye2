@@ -335,6 +335,17 @@
                 return matchesYear && matchesCountry && matchesSearch;
             });
 
+            // Update header year highlighting based on year filter
+            const headerYears = document.querySelectorAll('.header-years h2');
+            headerYears.forEach(el => el.classList.remove('active'));
+            
+            if (yearFilter) {
+                const selectedYearElement = document.querySelector(`.header-years h2[data-year="${yearFilter}"]`);
+                if (selectedYearElement) {
+                    selectedYearElement.classList.add('active');
+                }
+            }
+
             renderGallery();
             updateStats();
         }
