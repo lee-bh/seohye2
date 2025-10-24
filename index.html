@@ -348,6 +348,10 @@
             if (countryFilter) countryFilter.value = '';
             if (searchInput) searchInput.value = '';
             
+            // Remove active class from all header year elements
+            const headerYears = document.querySelectorAll('.header-years h2');
+            headerYears.forEach(el => el.classList.remove('active'));
+            
             filteredData = [...allData];
             renderGallery();
             updateStats();
@@ -441,6 +445,15 @@
                 }
             });
 
+            // Header h1 click event (reload page)
+            const headerH1 = document.querySelector('.header h1');
+            if (headerH1) {
+                headerH1.style.cursor = 'pointer';
+                headerH1.addEventListener('click', function() {
+                    window.location.reload();
+                });
+            }
+
             // Header year click events
             const headerYears = document.querySelectorAll('.header-years h2');
             headerYears.forEach(yearElement => {
@@ -451,6 +464,11 @@
                     if (yearFilter) {
                         yearFilter.value = year;
                         filterData();
+                        
+                        // Remove active class from all year elements
+                        headerYears.forEach(el => el.classList.remove('active'));
+                        // Add active class to clicked element
+                        this.classList.add('active');
                     }
                 });
             });

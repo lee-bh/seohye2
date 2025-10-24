@@ -33,15 +33,21 @@ body {
 .header-years h2 {
     cursor: pointer;
     transition: all 0.3s ease;
-    opacity: 0.7;
+    opacity: 0.3;
 }
 
 .header-years h2:hover {
     opacity: 1;
     transform: scale(1.05);
 }
+
+.header-years h2.active {
+    color: white;
+    opacity: 1;
+    font-weight: bold;
+}
 .container {
-    max-width: 1400px;
+    
     margin: 0 auto;
     padding: 2rem;
     margin-top: 100px;
@@ -53,6 +59,9 @@ body {
     flex-wrap: wrap;
     gap: 1rem;
     align-items: center;
+    position: absolute;
+    top:0; right:0;
+    z-index: 1000;
 }
 
 .thumbnail-controls {
@@ -102,7 +111,7 @@ body {
 
 .filter-select, .search-input {
     padding: 0.8rem 1rem;
-    border: 2px solid #5f5f5f;
+    border: 1px solid #5f5f5f;
     border-right: none;
     border-bottom: none;
     border-top: none;
@@ -118,7 +127,7 @@ body {
 }
 
 .search-input {
-    min-width: 100px;
+    width: 150px
 }
 
 .stats {
@@ -130,7 +139,7 @@ body {
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(var(--item-size, 300px), 1fr));
-    margin-top: 2rem;
+    margin-top: 6rem;
 }
 
 /* 썸네일 크기가 200px일 때 4컬럼 배치 */
@@ -146,7 +155,7 @@ body {
     position: relative;
     width: var(--item-size, 300px);
     height: var(--item-size, 300px);
-    margin: calc(var(--item-size, 300px) * 0.8) auto 0 auto;
+    margin: 0 auto calc(var(--item-size, 300px) * 0.7) auto;
 }
 
 .item-image-container {
@@ -198,10 +207,10 @@ body {
 
 @media (max-width: 768px) {
 
-    .header{padding: 3rem 1rem 0; position: relative;}
+    .header{padding: 2rem 1rem 0; position: relative;}
     .header h1 { font-size: 1.5rem;}
     .header-years {display: none;}
-    .container {margin-top: 0}
+    .container {margin-top: 0;}
     .filters {
         display: flex;
         position: sticky;
@@ -232,13 +241,13 @@ body {
     }
     
     .gallery {
-        margin-top: 0;
+        margin-top: 10rem;
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
     
     .container {
-        padding: 1rem;
+        padding: 1rem;padding-top:0.5rem;
     }
 }
 
@@ -260,6 +269,8 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     cursor: pointer;
     z-index: 1001;
 }
@@ -292,7 +303,6 @@ body {
     width: auto;
     height: auto;
     object-fit: contain;
-    border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     pointer-events: auto;
 }
@@ -312,6 +322,7 @@ body {
 .modal-meta { font-size: 1.2rem; }
 
 .modal-close {
+    
     position: absolute;
     top: 20px;
     right: 20px;
@@ -329,11 +340,13 @@ body {
     transition: all 0.3s ease;
     z-index: 1003;
     pointer-events: auto;
+    display:none;
 }
 
 .modal-close:hover {
     background: rgba(255, 255, 255, 1);
     transform: scale(1.1);
+    display: none;
 }
 
 /* Modal Animation */
