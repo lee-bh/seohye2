@@ -348,6 +348,9 @@
 
             renderGallery();
             updateStats();
+            
+            // Scroll to top when year filter changes
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function clearFilters() {
@@ -480,6 +483,9 @@
                         headerYears.forEach(el => el.classList.remove('active'));
                         // Add active class to clicked element
                         this.classList.add('active');
+                        
+                        // Scroll to top when header year is clicked
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                 });
             });
