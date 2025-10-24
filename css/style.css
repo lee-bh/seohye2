@@ -241,13 +241,20 @@ body {
     }
     
     .gallery {
-        margin-top: 10rem;
+        margin-top: 5rem;
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
     
     .container {
         padding: 1rem;padding-top:0.5rem;
+    }
+
+    .item {
+        position: relative;
+        width: var(--item-size, 300px);
+        height: var(--item-size, 300px);
+        margin: 0 auto calc(var(--item-size, 300px) * 0.6) auto;
     }
 }
 

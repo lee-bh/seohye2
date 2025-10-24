@@ -96,7 +96,7 @@
     <script>
         let allData = [];
         let filteredData = [];
-        let thumbnailSize = 270; // Default thumbnail size in pixels
+        let thumbnailSize = window.innerWidth <= 768 ? 300 : 270; // Default thumbnail size in pixels
 
         // Get full image path based on year
         function getFullImagePath(item) {
@@ -403,6 +403,15 @@
 
         // Event listeners - wait for DOM to be ready
         document.addEventListener('DOMContentLoaded', function() {
+            // Set mobile default values
+            if (window.innerWidth <= 768) {
+                thumbnailSize = 300;
+                const sizeSlider = document.getElementById('sizeSlider');
+                const sizeDisplay = document.getElementById('sizeDisplay');
+                if (sizeSlider) sizeSlider.value = 300;
+                if (sizeDisplay) sizeDisplay.textContent = '300px';
+            }
+            
             // Load the gallery when the page loads
             loadAllData();
             
