@@ -9,7 +9,16 @@
     <body>
     <div class="header">
         <h1>타이포잔치 아카이브</h1>
-        <p>Typography Archive - 8회의 전시회 기록</p>
+        <div class="header-years">
+            <h2 data-year="2001">2001</h2>
+            <h2 data-year="2011">2011</h2>
+            <h2 data-year="2013">2013</h2>
+            <h2 data-year="2015">2015</h2>
+            <h2 data-year="2017">2017</h2>
+            <h2 data-year="2019">2019</h2>
+            <h2 data-year="2021">2021</h2>
+            <h2 data-year="2023">2023</h2>
+        </div>
     </div>
 
     <div class="container">
@@ -31,19 +40,19 @@
             <div class="filter-group">
                 <select id="countryFilter" class="filter-select">
                     <option value="">All country</option>
-                    <option value="한국">한국</option>
-                    <option value="일본">일본</option>
-                    <option value="중국">중국</option>
+                    <option value="한국">Korea</option>
+                    <option value="일본">Japan</option>
+                    <option value="중국">China</option>
                 </select>
             </div>
             
             <div class="filter-group">
-                <input type="text" id="searchInput" class="search-input" placeholder="작가명 또는 작품명으로 검색...">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search">
             </div>
             
             <div class="thumbnail-controls">
-                <input type="range" id="sizeSlider" class="size-slider" min="200" max="500" value="300">
-                <div id="sizeDisplay" class="size-display">300px</div>
+                <input type="range" id="sizeSlider" class="size-slider" min="270" max="500" value="270">
+                <div id="sizeDisplay" class="size-display">270px</div>
             </div>
         </div>
 
@@ -87,7 +96,7 @@
     <script>
         let allData = [];
         let filteredData = [];
-        let thumbnailSize = 300; // Default thumbnail size in pixels
+        let thumbnailSize = 270; // Default thumbnail size in pixels
 
         // Get full image path based on year
         function getFullImagePath(item) {
@@ -349,10 +358,15 @@
             if (galleryEl) {
                 galleryEl.style.setProperty('--item-size', thumbnailSize + 'px');
                 
-                // 썸네일 크기가 200px일 때 4컬럼 클래스 추가/제거
-                if (thumbnailSize === 200) {
+                // 썸네일 크기에 따라 갭 조정
+                if (thumbnailSize <= 250) {
+                    galleryEl.style.gap = '1rem 2rem';
                     galleryEl.classList.add('small-thumbnails');
+                } else if (thumbnailSize <= 350) {
+                    galleryEl.style.gap = '1.5rem 4rem';
+                    galleryEl.classList.remove('small-thumbnails');
                 } else {
+                    galleryEl.style.gap = '2rem 8rem';
                     galleryEl.classList.remove('small-thumbnails');
                 }
             }
@@ -411,10 +425,12 @@
                 });
             }
 
-            // Prevent modal from closing when clicking on the content area (image)
-            if (modalContent) {
-                modalContent.addEventListener('click', function(e) {
+            // Close modal when clicking on the image
+            const modalImage = document.getElementById('modalImage');
+            if (modalImage) {
+                modalImage.addEventListener('click', function(e) {
                     e.stopPropagation();
+                    hideModal();
                 });
             }
 
@@ -423,6 +439,20 @@
                 if (event.key === 'Escape' && modal && modal.style.display === 'block') {
                     hideModal();
                 }
+            });
+
+            // Header year click events
+            const headerYears = document.querySelectorAll('.header-years h2');
+            headerYears.forEach(yearElement => {
+                yearElement.style.cursor = 'pointer';
+                yearElement.addEventListener('click', function() {
+                    const year = this.getAttribute('data-year');
+                    const yearFilter = document.getElementById('yearFilter');
+                    if (yearFilter) {
+                        yearFilter.value = year;
+                        filterData();
+                    }
+                });
             });
         });
     </script>

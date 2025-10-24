@@ -13,17 +13,38 @@ body {
 
 .header {
     color: white;
-    padding: 3rem 2rem;
+    padding: 3rem 2rem 0;
     text-align: left;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top:0;left:0;
 }
 
-.header h1 {}
-.header p {}
+.header h1 { font-size: 2rem;}
+.header h2 { font-size: 2rem;}
+.header-years {
+    display: flex;
+    gap: 1.2rem;
+}
 
+.header-years h2 {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.header-years h2:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
 .container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 2rem;
+    margin-top: 100px;
 }
 
 .filters {
@@ -82,6 +103,9 @@ body {
 .filter-select, .search-input {
     padding: 0.8rem 1rem;
     border: 2px solid #5f5f5f;
+    border-right: none;
+    border-bottom: none;
+    border-top: none;
     transition: border-color 0.3s ease;
     min-width: 150px;
     color:white;
@@ -90,11 +114,11 @@ body {
 
 .filter-select:focus, .search-input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #ffffff;
 }
 
 .search-input {
-    min-width: 300px;
+    min-width: 100px;
 }
 
 .stats {
@@ -105,15 +129,13 @@ body {
 
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem 8rem;
+    grid-template-columns: repeat(auto-fit, minmax(var(--item-size, 300px), 1fr));
     margin-top: 2rem;
 }
 
 /* 썸네일 크기가 200px일 때 4컬럼 배치 */
 .gallery.small-thumbnails {
     grid-template-columns: repeat(4, 1fr);
-    gap: 1rem 2rem;
 }
 
 .gallery.small-thumbnails .item {
@@ -124,7 +146,7 @@ body {
     position: relative;
     width: var(--item-size, 300px);
     height: var(--item-size, 300px);
-    margin: calc(var(--item-size, 300px) * 0.5) auto 0 auto;
+    margin: calc(var(--item-size, 300px) * 0.8) auto 0 auto;
 }
 
 .item-image-container {
@@ -154,12 +176,6 @@ body {
     padding:0;
 }
 
-.item-designer {}
-
-.item-title {}
-
-.item-country {}
-
 .loading {
     text-align: center;
     padding: 3rem;
@@ -181,20 +197,27 @@ body {
 }
 
 @media (max-width: 768px) {
-    .header h1 {}
-    
+
+    .header{padding: 3rem 1rem 0; position: relative;}
+    .header h1 { font-size: 1.5rem;}
+    .header-years {display: none;}
+    .container {margin-top: 0}
     .filters {
-        flex-direction: column;
-        align-items: stretch;
+        display: flex;
+        position: sticky;
+        top: 1rem;
+        background: none;
+        z-index: 1000;
     }
     
     .filter-group {
-        width: 100%;
+        width: 30.5%;
     }
     
     .filter-select, .search-input {
         width: 100%;
         min-width: auto;
+        padding: 0.5rem 0.5rem;
     }
     
     .clear-filters {
@@ -202,17 +225,14 @@ body {
         margin-top: 1rem;
     }
     
-    .thumbnail-controls {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1rem;
-    }
+    .thumbnail-controls { display: none;}
     
     .size-slider {
         min-width: auto;
     }
     
     .gallery {
+        margin-top: 0;
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
@@ -267,8 +287,8 @@ body {
 }
 
 .modal-image {
-    max-width: 80%;
-    max-height: 70vh;
+    max-width: 90%;
+    max-height: 80vh;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -278,31 +298,18 @@ body {
 }
 
 .modal-text {
-    text-align: center;
+    margin-top: 2rem;
+    text-align: left;
     color: white;
-    max-width: 80%;
+    width: 400px;
     pointer-events: auto;
 }
 
-.modal-designer {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #ffffff;
-}
+.modal-designer { font-size: 1.2rem; }
 
-.modal-title {
-    font-size: 1rem;
-    font-weight: 400;
-    margin-bottom: 0.5rem;
-    color: #cccccc;
-}
+.modal-title { font-size: 1.2rem; }
 
-.modal-meta {
-    font-size: 0.9rem;
-    font-weight: 300;
-    color: #999999;
-}
+.modal-meta { font-size: 1.2rem; }
 
 .modal-close {
     position: absolute;
