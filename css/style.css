@@ -247,6 +247,7 @@ body {
 .modal-content {
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -257,9 +258,17 @@ body {
     pointer-events: none;
 }
 
+.modal-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    pointer-events: auto;
+}
+
 .modal-image {
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 80%;
+    max-height: 70vh;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -268,18 +277,45 @@ body {
     pointer-events: auto;
 }
 
+.modal-text {
+    text-align: center;
+    color: white;
+    max-width: 80%;
+    pointer-events: auto;
+}
+
+.modal-designer {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+
+.modal-title {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    color: #cccccc;
+}
+
+.modal-meta {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: #999999;
+}
+
 .modal-close {
     position: absolute;
     top: 20px;
-    right: 30px;
-    background: rgba(255, 255, 255, 0.9);
+    right: 20px;
     border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
-    font-weight: bold;
+    background:none;
+    width: 60px;
+    height: 60px;
+    font-size: 60px;
+    font-weight:300;
     cursor: pointer;
+    color:white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -335,6 +371,26 @@ body {
     
     .modal-image {
         max-width: 95%;
-        max-height: 95%;
+        max-height: 60vh;
+    }
+    
+    .modal-image-container {
+        margin-bottom: 1rem;
+    }
+    
+    .modal-text {
+        max-width: 95%;
+    }
+    
+    .modal-designer {
+        font-size: 1rem;
+    }
+    
+    .modal-title {
+        font-size: 0.9rem;
+    }
+    
+    .modal-meta {
+        font-size: 0.8rem;
     }
 }

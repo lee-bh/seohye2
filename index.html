@@ -72,7 +72,14 @@
     <div id="imageModal" class="modal">
         <div class="modal-overlay" id="modalOverlay"></div>
         <div class="modal-content" id="modalContent">
-            <img id="modalImage" src="" alt="" class="modal-image">
+            <div class="modal-image-container">
+                <img id="modalImage" src="" alt="" class="modal-image">
+            </div>
+            <div class="modal-text" id="modalText">
+                <div class="modal-designer" id="modalDesigner"></div>
+                <div class="modal-title" id="modalTitle"></div>
+                <div class="modal-meta" id="modalMeta"></div>
+            </div>
             <button class="modal-close" id="modalClose">&times;</button>
         </div>
     </div>
@@ -105,12 +112,19 @@
         }
 
         // Modal functions
-        function showModal(imageSrc, title, designer) {
+        function showModal(imageSrc, title, designer, year, country) {
             const modal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
+            const modalDesigner = document.getElementById('modalDesigner');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMeta = document.getElementById('modalMeta');
             
             modalImage.src = imageSrc;
             modalImage.alt = title;
+            modalDesigner.textContent = designer;
+            modalTitle.textContent = title;
+            modalMeta.textContent = `${year}, ${country}`;
+            
             modal.classList.add('show');
             modal.style.display = 'block';
             
@@ -233,7 +247,9 @@
                              onerror="this.src='img/noimage.jpg'"
                              data-full-image="${getFullImagePath(item)}"
                              data-title="${item.title}"
-                             data-designer="${item.designer}">
+                             data-designer="${item.designer}"
+                             data-year="${item.yr}"
+                             data-country="${item.country}">
                     </div>
                     <div class="item-content">
                         <div class="item-designer">${item.designer}</div>
@@ -253,7 +269,9 @@
                     const fullImageSrc = this.getAttribute('data-full-image');
                     const title = this.getAttribute('data-title');
                     const designer = this.getAttribute('data-designer');
-                    showModal(fullImageSrc, title, designer);
+                    const year = this.getAttribute('data-year');
+                    const country = this.getAttribute('data-country');
+                    showModal(fullImageSrc, title, designer, year, country);
                 });
             });
         }
