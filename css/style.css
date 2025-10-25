@@ -359,16 +359,19 @@ body {
 /* Modal Animation */
 .modal.show {
     display: block;
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.5s ease;
+    
 }
 
 .modal-content {
-    animation: zoomIn 0.3s ease;
+    animation: zoomIn 0.5s ease;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0;   backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);}
+    to { opacity: 1;   backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);}
 }
 
 @keyframes zoomIn {
