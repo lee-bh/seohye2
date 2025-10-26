@@ -206,14 +206,16 @@ body {
     color: #666;
 }
 
+footer{margin-bottom: 200px;}
+footer .container{margin-top:0px}
 footer .about{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(var(--item-size, 300px), 1fr));
-    margin-top: 6rem;
+    margin-top: 4rem;
 }
 footer h2,p{color:white;}
 footer p{text-align: justify;}
-
+footer #empty2{display: none;}
 @media (max-width: 768px) {
 
     .header{padding: 2rem 1rem 0; position: relative;}
@@ -265,7 +267,16 @@ footer p{text-align: justify;}
         height: var(--item-size, 300px);
         margin: 0 auto calc(var(--item-size, 300px) * 0.6) auto;
     }
+
 }
+
+
+
+@media (max-width: 990px) {
+    #empty{display: none;}
+}
+
+
 
 /* Modal Styles */
 .modal {
