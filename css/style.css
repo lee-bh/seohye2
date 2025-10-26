@@ -216,6 +216,8 @@ footer .about{
 footer h2,p{color:white;}
 footer p{text-align: justify;}
 footer #empty2{display: none;}
+footer .up1500 {display: none;}
+
 @media (max-width: 768px) {
 
     .header{padding: 2rem 1rem 0; position: relative;}
@@ -276,7 +278,13 @@ footer #empty2{display: none;}
     #empty{display: none;}
 }
 
+@media (min-width: 768px) and (max-width: 990px) {
+    #empty2{display: block !important;}
+}
 
+@media (min-width: 1470px) {
+    .up1500{display: block !important}
+}
 
 /* Modal Styles */
 .modal {
