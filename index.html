@@ -44,9 +44,9 @@
             <div class="filter-group">
                 <select id="countryFilter" class="filter-select">
                     <option value="">All country</option>
-                    <option value="한국">Korea</option>
-                    <option value="일본">Japan</option>
-                    <option value="중국">China</option>
+                    <option value="한국" data-kr="한국" data-jp="韓国" data-kr-text="Korea" data-jp-text="韓国">Korea</option>
+                    <option value="일본" data-kr="일본" data-jp="日本" data-kr-text="Japan" data-jp-text="日本">Japan</option>
+                    <option value="중국" data-kr="중국" data-jp="中国" data-kr-text="China" data-jp-text="中国">China</option>
                 </select>
             </div>
             
@@ -204,8 +204,24 @@
                 koreanBtn.classList.toggle('active', language === 'korean');
             }
             
+            // Update country filter options
+            updateCountryFilterOptions(language);
+            
             // Reload data with new language
             loadAllData();
+        }
+
+        function updateCountryFilterOptions(language) {
+            const countryOptions = document.querySelectorAll('#countryFilter option[data-jp]');
+            countryOptions.forEach(option => {
+                if (language === 'japanese') {
+                    option.textContent = option.getAttribute('data-jp-text');
+                    option.value = option.getAttribute('data-jp');
+                } else {
+                    option.textContent = option.getAttribute('data-kr-text');
+                    option.value = option.getAttribute('data-kr');
+                }
+            });
         }
 
         // Start popup functions
@@ -521,6 +537,9 @@
                 if (sizeDisplay) sizeDisplay.textContent = '300px';
             }
             
+            // Update country filter options for initial language
+            updateCountryFilterOptions(currentLanguage);
+            
             // Show start popup
             showStartPopup();
             
@@ -634,17 +653,8 @@
 
             if (startPopup) {
                 startPopup.addEventListener('click', function(e) {
-                    // Close if clicking on the popup background or overlay
-                    if (e.target === startPopup || e.target === startPopupOverlay) {
-                        hideStartPopup();
-                    }
-                });
-            }
-
-            // Prevent popup from closing when clicking on the content
-            if (startPopupContent) {
-                startPopupContent.addEventListener('click', function(e) {
-                    e.stopPropagation();
+                    // Close when clicking anywhere on the popup
+                    hideStartPopup();
                 });
             }
         });
